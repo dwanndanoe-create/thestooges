@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MicroJobs SR – Voor jongeren</title>
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body class="role-body worker-page worker-background-fixed">
+
+  <header class="role-header" style="width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px);">
+    <div class="role-header-inner header-centered">
+      <a href="index.html" class="back-link header-left">
+        ← Terug
+      </a>
+
+      <div class="header-center">
+        <img src="img/microjobs-logo.jpg" onerror="this.src='img/microjobs-logo.png'" alt="MicroJobs SR Logo" class="header-logo" />
+      </div>
+
+      <div class="header-right">
+        <button class="header-auth-btn" id="open-auth-btn" onclick="openDeModal(event)">
+          Inloggen / Registreren
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="role-main">
+    <div style="background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(12px); border-radius: 32px; padding: 3rem 2.5rem; box-shadow: var(--shadow-medium); width: 100%; max-width: 1200px; margin: 2rem auto;">
+      
+      <div class="role-main-header">
+        <h1>Zoek microjobs in jouw buurt</h1>
+        <p>
+          Scroll door opdrachten, filter op skills en locatie en reageer op jobs die bij jou passen.
+        </p>
+      </div>
+
+      <section class="filters-bar" style="background: var(--bg-page); border: 1px solid var(--border-subtle);">
+        <div class="filters-row">
+          <div>
+            <div class="filter-label">Zoek</div>
+            <input
+              type="text"
+              class="filter-input"
+              id="worker-search"
+              placeholder="Zoek op job, bv. gras maaien"
+            />
+          </div>
+
+          <div>
+            <div class="filter-label">Buurt</div>
+            <select class="filter-select" id="filter-location" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-page);">
+              <option value="">Alle buurten</option>
+              <option value="Latour">Latour</option>
+              <option value="Kwatta">Kwatta</option>
+              <option value="Lelydorp">Lelydorp</option>
+              <option value="Meerzorg">Meerzorg</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="filter-label">Skills</div>
+            <div class="filter-chips-wrapper" style="margin-top: 5px;">
+              <button class="filter-chip" data-skill="Gras maaien">Gras maaien</button>
+              <button class="filter-chip" data-skill="Erf schoonmaken">Erf schoonmaken</button>
+              <button class="filter-chip" data-skill="Auto wassen">Auto wassen</button>
+              <button class="filter-chip" data-skill="Folders uitdelen">Folders uitdelen</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-secondary full-width" type="button" id="clear-filters" style="margin-top: 1rem;">
+          Reset filters
+        </button>
+      </section>
+
+      <section class="feed-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+        <div class="feed-list">
+          <div id="jobs-feed" class="jobs-feed-container"></div>
+        </div>
+
+        <aside class="feed-sidebar">
+          <div class="job-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+            <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Jouw skills</h3>
+            <p class="job-card-desc" style="font-size: 0.9rem; color: var(--text-muted);">
+              Zodra je profielgegevens zijn ingevuld, verschijnen jouw skills hier.
+            </p>
+            <div class="sidebar-skills"></div>
+          </div>
+
+          <div class="job-card" style="padding: 1.5rem;">
+            <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Locatie</h3>
+            <p class="job-card-desc" style="font-size: 0.9rem; color: var(--text-muted);">
+              Zodra je locatie is ingesteld, gebruiken we die om passende jobs te tonen.
+            </p>
+          </div>
+        </aside>
+      </section>
+      
+    </div>
+  </main>
+
+  <!-- AUTHENTICATIE POP-UP MODAL -->
+  <div class="modal-overlay" id="auth-modal-overlay" onclick="closeDeModalOpOverlay(event)">
+    <div class="modal" style="border-radius: 28px; background: #ffffff; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: none; max-width: 460px; width: 90%; position: relative; margin: 2rem auto; padding: 32px 24px 24px 24px; box-sizing: border-box;" onclick="event.stopPropagation()">
+      
+      <!-- Container voor de tabs waar het kruisje nu strak in geïntegreerd zit -->
+      <div style="position: relative; margin-bottom: 28px;">
+        <div class="modal-tabs" style="display: flex; background: #f3f4f6; padding: 4px; border-radius: 14px; padding-right: 48px; position: relative; z-index: 999;">
+          <button id="tab-btn-register" class="modal-tab" type="button" onclick="switchAuthTab('register')" style="flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; background: #ffffff; color: #111827; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">Registreren</button>
+          <button id="tab-btn-login" class="modal-tab" type="button" onclick="switchAuthTab('login')" style="flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; background: transparent; color: #6b7280; box-shadow: none;">Login</button>
+        </div>
+        
+        <!-- Gecorrigeerd kruisje: Perfect uitgelijnd binnen de grijze balk -->
+        <button class="modal-close-btn" type="button" onclick="closeDeModal(event)" style="position: absolute; top: 50%; right: 8px; transform: translateY(-50%); background: transparent; border: none; width: 32px; height: 32px; font-size: 1.4rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #4b5563; z-index: 1000; font-weight: bold; transition: color 0.2s;">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- REGISTRATIE FORMULIER -->
+        <form class="auth-form" id="register-form" style="display: block;">
+          <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827; letter-spacing: -0.025em;">Account aanmaken</h2>
+          <p class="auth-note" style="color: #6b7280; font-size: 0.95rem; margin-bottom: 24px;">Vul je gegevens in om te registreren.</p>
+          
+          <label style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 14px; color: #374151;">
+            Naam
+            <input type="text" id="register-name" placeholder="Je volledige naam" required style="width: 100%; padding: 0.85rem 1rem; border: 1px solid #d1d5db; border-radius: 12px; margin-top: 6px; box-sizing: border-box; font-size: 0.95rem; background-color: #f9fafb;" />
+          </label>
+          
+          <!-- Gecorrigeerde Dropdown: Matcht nu 100% met de text inputs -->
+          <label style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 14px; color: #374151;">
+            Buurt
+            <select id="register-location" style="width: 100%; padding: 0.85rem 2.5rem 0.85rem 1rem; border: 1px solid #d1d5db; border-radius: 12px; background: #f9fafb url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%234B5563%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22/%3E%3C/svg%3E') no-repeat right 1rem center; background-size: 0.65rem auto; appearance: none; -webkit-appearance: none; -moz-appearance: none; margin-top: 6px; box-sizing: border-box; font-size: 0.95rem; color: #111827; cursor: pointer;" required>
+              <option value="" disabled selected style="color: #9ca3af;">Kies jouw buurt</option>
+              <option value="Latour">Latour</option>
+              <option value="Kwatta">Kwatta</option>
+              <option value="Lelydorp">Lelydorp</option>
+              <option value="Meerzorg">Meerzorg</option>
+            </select>
+          </label>
+          
+          <label style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 14px; color: #374151;">
+            E-mail
+            <input type="email" id="register-email" placeholder="jij@example.com" required style="width: 100%; padding: 0.85rem 1rem; border: 1px solid #d1d5db; border-radius: 12px; margin-top: 6px; box-sizing: border-box; font-size: 0.95rem; background-color: #f9fafb;" />
+          </label>
+          
+          <label style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 24px; color: #374151;">
+            Wachtwoord
+            <input type="password" id="register-password" placeholder="Kies een wachtwoord" required style="width: 100%; padding: 0.85rem 1rem; border: 1px solid #d1d5db; border-radius: 12px; margin-top: 6px; box-sizing: border-box; font-size: 0.95rem; background-color: #f9fafb;" />
+          </label>
+          
+          <input type="hidden" id="register-role" value="worker" />
+          <button type="submit" class="btn-primary full-width" style="width: 100%; padding: 0.85rem; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; border: none;">Account aanmaken</button>
+        </form>
+
+        <!-- LOGIN FORMULIER -->
+        <form class="auth-form" id="login-form" style="display: none;">
+          <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827; letter-spacing: -0.025em;">Inloggen</h2>
+          <p class="auth-note" style="color: #6b7280; font-size: 0.95rem; margin-bottom: 24px;">Log in met je geregistreerde e-mail en wachtwoord.</p>
+          
+          <label style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 14px; color: #374151;">
+            E-mail
+            <input type="email" id="login-email" placeholder="jij@example.com" required style="width: 100%; padding: 0.85rem 1rem; border: 1px solid #d1d5db; border-radius: 12px; margin-top: 6px; box-sizing: border-box; font-size: 0.95rem; background-color: #f9fafb;" />
+          </label>
+          
+          <label style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 24px; color: #374151;">
+            Wachtwoord
+            <input type="password" id="login-password" placeholder="••••••••" required style="width: 100%; padding: 0.85rem 1rem; border: 1px solid #d1d5db; border-radius: 12px; margin-top: 6px; box-sizing: border-box; font-size: 0.95rem; background-color: #f9fafb;" />
+          </label>
+          
+          <button type="submit" class="btn-primary full-width" style="width: 100%; padding: 0.85rem; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; border: none;">Inloggen</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- INLINE UI MECHANISME LOGICA -->
+  <script>
+    function openDeModal(e) {
+      if (e) e.preventDefault();
+      document.getElementById('auth-modal-overlay').classList.add('open');
+    }
+
+    function closeDeModal(e) {
+      if (e) e.preventDefault();
+      document.getElementById('auth-modal-overlay').classList.remove('open');
+    }
+
+    function closeDeModalOpOverlay(e) {
+      if (e.target === document.getElementById('auth-modal-overlay')) {
+        closeDeModal(e);
+      }
+    }
+
+    function switchAuthTab(target) {
+      const regForm = document.getElementById('register-form');
+      const loginForm = document.getElementById('login-form');
+      const regBtn = document.getElementById('tab-btn-register');
+      const loginBtn = document.getElementById('tab-btn-login');
+
+      if (target === 'register') {
+        regForm.style.display = 'block';
+        loginForm.style.display = 'none';
+        
+        regBtn.style.background = '#ffffff';
+        regBtn.style.color = '#111827';
+        regBtn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.08)';
+        
+        loginBtn.style.background = 'transparent';
+        loginBtn.style.color = '#6b7280';
+        loginBtn.style.boxShadow = 'none';
+      } else {
+        regForm.style.display = 'none';
+        loginForm.style.display = 'block';
+        
+        loginBtn.style.background = '#ffffff';
+        loginBtn.style.color = '#111827';
+        loginBtn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.08)';
+        
+        regBtn.style.background = 'transparent';
+        regBtn.style.color = '#6b7280';
+        regBtn.style.boxShadow = 'none';
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
