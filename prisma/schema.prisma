@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+
+  location     String?
+  bio          String?
+  skills       String[] @default([])
+
+  isAdmin      Boolean  @default(false)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  sessions     Session[]
+  jobs         Job[]
+  applications JobApplication[]
+
+  conversationsStarted  Conversation[] @relation("ConversationStarter")
+  conversationsReceived Conversation[] @relation("ConversationReceiver")
+  sentMessages          Message[]
+
+  @@index([isActive])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Job {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  budget      Int
+  location    String?
+  skills      String[] @default([])
+  status      JobStatus @default(OPEN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  creatorId String
+  creator   User   @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  applications JobApplication[]
+
+  @@index([creatorId])
+  @@index([status])
+}
+
+model JobApplication {
+  id        String            @id @default(cuid())
+  message   String?
+  status    ApplicationStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([jobId, userId])
+  @@index([jobId])
+  @@index([userId])
+}
+
+model Conversation {
+  id String @id @default(cuid())
+
+  starterId  String
+  receiverId String
+
+  starter  User @relation("ConversationStarter", fields: [starterId], references: [id], onDelete: Cascade)
+  receiver User @relation("ConversationReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  messages Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([starterId])
+  @@index([receiverId])
+  @@index([updatedAt])
+}
+
+model Message {
+  id String @id @default(cuid())
+
+  content String
+
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  senderId String
+  sender   User @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  readAt    DateTime?
+
+  @@index([conversationId])
+  @@index([senderId])
+  @@index([createdAt])
+}
+
+model BlacklistedName {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  reason    String?
+  createdAt DateTime @default(now())
+}
+
+model ErrorLog {
+  id        String   @id @default(cuid())
+  message   String
+  stack     String?
+  path      String?
+  method    String?
+  createdAt DateTime @default(now())
+}
+
+enum JobStatus {
+  OPEN
+  CLOSED
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}

@@ -1,5 +1,3 @@
-"use client";
-
 import { WelcomeHeader } from "@/components/dashboard/WelcomeHeader";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { JobCard } from "@/components/dashboard/JobCard";
@@ -7,6 +5,9 @@ import { ActivityPanel } from "@/components/dashboard/ActivityPanel";
 import { ProfileCard } from "@/components/dashboard/ProfileCard";
 import { DashboardTopActions } from "@/components/dashboard/DashboardTopActions";
 import { WorkspaceCard } from "@/components/dashboard/WorkspaceCard";
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth";
+import { getGreeting } from "@/lib/greetings";
 
 import {
   FolderKanban,
@@ -18,18 +19,22 @@ import { ProfileProgressCard } from "@/components/dashboard/ProfileProgressCard"
 
 const recommendedJobs = [
   {
+    id: "recommended-1",
     title: "Build a company website",
+    description: "Build a modern website for a local startup.",
     company: "Local Startup",
     location: "Paramaribo",
     skills: ["React", "Tailwind"],
-    budget: "500 SRD",
+    budget: 500,
   },
   {
+    id: "recommended-2",
     title: "Design mobile app interface",
+    description: "Create a clean and modern interface for a mobile app.",
     company: "Student Project",
     location: "Wanica",
     skills: ["Figma", "UI/UX"],
-    budget: "300 SRD",
+    budget: 300,
   },
 ];
 
@@ -77,7 +82,14 @@ const workspaceCards = [
 
 
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const greeting = getGreeting(user.name);
 
   return (
     <main className="min-h-screen bg-bg px-6 py-8">
@@ -98,15 +110,14 @@ export default function DashboardPage() {
           "
         >
 
-          <WelcomeHeader />
+          <WelcomeHeader greeting={greeting} />
 
-          <DashboardTopActions />
+          <DashboardTopActions 
+            name={user.name}
+            email={user.email}
+          />
 
         </div>
-
-
-
-
 
         {/* Profile */}
 
@@ -122,8 +133,13 @@ export default function DashboardPage() {
 
           {/* Left side */}
 
-          <ProfileCard />
-
+         <ProfileCard
+           user={{
+          name: user.name,
+          location: user.location,
+          skills: user.skills,
+            }}
+          />
 
 
           {/* Right side */}
@@ -134,7 +150,7 @@ export default function DashboardPage() {
             <QuickActions />
 
             <div className="mt-8">
-              <ProfileProgressCard />
+              <ProfileProgressCard user={user}/>
             </div>
           </div>
 
@@ -203,16 +219,9 @@ export default function DashboardPage() {
 
         </section>
 
-
-
-
-
-
-
         {/* Recommended Jobs */}
 
         <section className="mt-12">
-
 
           <div
             className="
@@ -232,8 +241,7 @@ export default function DashboardPage() {
             >
               Recommended Jobs
             </h2>
-
-
+            
             <a
               href="/jobs"
               className="
@@ -244,12 +252,7 @@ export default function DashboardPage() {
             >
               View all
             </a>
-
-
           </div>
-
-
-
 
           <div
             className="
@@ -263,7 +266,7 @@ export default function DashboardPage() {
               recommendedJobs.map((job)=>(
 
                 <JobCard
-                  key={job.title}
+                  key={job.id}
                   job={job}
                 />
 
@@ -275,13 +278,6 @@ export default function DashboardPage() {
 
 
         </section>
-
-
-
-
-
-
-
         {/* Activity */}
 
         <ActivityPanel />
@@ -289,7 +285,6 @@ export default function DashboardPage() {
 
 
       </div>
-
 
     </main>
   );

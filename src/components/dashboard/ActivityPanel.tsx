@@ -6,9 +6,7 @@ import {
  Briefcase
 } from "lucide-react";
 
-
 export function ActivityPanel(){
-
 
 return (
 
@@ -21,7 +19,6 @@ p-6
 flex flex-col gap-4
 "
 >
-
 
 <div
 className="
@@ -36,8 +33,6 @@ No messages yet
 
 </div>
 
-
-
 <div
 className="
 flex items-center gap-3
@@ -50,7 +45,6 @@ text-ink-muted
 No applications yet
 
 </div>
-
 
 
 </div>

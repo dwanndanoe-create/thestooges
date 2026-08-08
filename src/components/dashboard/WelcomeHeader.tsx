@@ -4,20 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface WelcomeHeaderProps {
-  name?: string;
+  greeting?: string;
 }
 
 export function WelcomeHeader({
-  name = "Arnold",
+  greeting = "User",
 }: WelcomeHeaderProps) {
   return (
     <div>
 
       {/* Brand */}
-      <Link
-        href="/"
-        className="flex items-center gap-2 mb-8 group"
-      >
+      <div className="flex items-center gap-2 mb-8 group">
         <Image
           src="/mj-logo-v2.png"
           alt="Microjobs logo"
@@ -37,7 +34,7 @@ export function WelcomeHeader({
         >
           Microjobs<span className="text-emerald-700">.sr</span>
         </span>
-      </Link>
+      </div>
 
 
       {/* Greeting */}
@@ -63,7 +60,7 @@ export function WelcomeHeader({
         mt-2
         "
       >
-        Good Afternoon, {name}
+        {greeting}
       </h1>
 
 

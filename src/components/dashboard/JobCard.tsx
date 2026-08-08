@@ -1,18 +1,17 @@
 "use client";
 
-
 import { MapPin } from "lucide-react";
 
 interface Job {
-
+  id: string;
   title:string;
+  description:string;
   company:string;
-  location:string;
+  location:string | null;
   skills:string[];
-  budget:string;
+  budget:number | string;
 
 }
-
 
 interface JobCardProps {
   job: Job;
@@ -113,10 +112,7 @@ text-xs
 ))
 }
 
-
 </div>
-
-
 
 <div
 className="
@@ -131,7 +127,7 @@ font-medium
 text-ink
 "
 >
-{budget}
+{budget.toLocaleString()} SRD
 </span>
 
 
@@ -145,10 +141,7 @@ font-medium
 Apply →
 </button>
 
-
 </div>
-
-
 
 </div>
 

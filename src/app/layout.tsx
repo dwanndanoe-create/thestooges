@@ -28,6 +28,9 @@ export const metadata: Metadata = {
   title: "Microjobs.sr — Find work, build projects, meet local talent",
   description:
     "Microjobs.sr is where people in Suriname hire, get hired, and collaborate on real projects — all from a single profile.",
+  icons:{
+    icon: "/mj-black-logo.png",
+  },
   keywords: [
     "Microjobs.sr",
     "jobs Suriname",

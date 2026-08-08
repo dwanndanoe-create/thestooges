@@ -1,125 +1,136 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import {
   Briefcase,
   Users,
+  PlusCircle,
   FolderKanban,
   ArrowRight,
 } from "lucide-react";
 
-
 const actions = [
   {
-    title: "Find Jobs",
+    title: "Find jobs",
     description: "Discover projects and paid opportunities.",
     icon: Briefcase,
     href: "/jobs",
   },
   {
-    title: "Find Talent",
+    title: "Find talent",
     description: "Connect with skilled people.",
     icon: Users,
     href: "/talent",
   },
   {
-    title: "Create Project",
+    title: "Post a job",
+    description: "Find the right person for your work.",
+    icon: PlusCircle,
+    href: "/jobs/create",
+  },
+  {
+    title: "Create project",
     description: "Start something new with others.",
     icon: FolderKanban,
-    href: "/projects",
+    href: "/projects/create",
   },
 ];
 
-
 export function QuickActions() {
+  const reduceMotion = useReducedMotion();
 
   return (
-    <section className="grid md:grid-cols-3 gap-5 mb-12">
-
-      {actions.map((item,index)=>{
-
+    <section className="grid sm:grid-cols-2 gap-5">
+      {actions.map((item, index) => {
         const Icon = item.icon;
+        const isCreateAction =
+          item.title === "Post a job" || item.title === "Create project";
 
         return (
           <motion.div
             key={item.title}
-            initial={{
-              opacity:0,
-              y:15
-            }}
-            animate={{
-              opacity:1,
-              y:0
-            }}
+            initial={reduceMotion ? false : { opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
-              delay:index * 0.1
+              delay: reduceMotion ? 0 : index * 0.08,
+              duration: reduceMotion ? 0.01 : 0.4,
+              ease: "easeOut",
             }}
           >
-
             <Link
               href={item.href}
               className="
-              block
-              rounded-2xl
-              border border-line
-              bg-bg-raised
-              p-6
-              hover:border-emerald-600
-              hover:-translate-y-1
-              transition-all
+                group
+                block
+                rounded-2xl
+                border border-line
+                bg-bg-raised
+                p-6
+                hover:border-emerald-600
+                hover:-translate-y-1
+                hover:shadow-md
+                transition-all
+                duration-200
               "
             >
-
-              <Icon
-                size={24}
+              <motion.div
                 className="
-                text-emerald-700
-                mb-5
+                  inline-flex
+                  h-11
+                  w-11
+                  items-center
+                  justify-center
+                  rounded-xl
+                  bg-emerald-50
+                  text-emerald-700
+                  mb-5
                 "
-              />
+                whileHover={
+                  reduceMotion
+                    ? undefined
+                    : { rotate: -8, scale: 1.08 }
+                }
+                transition={{ type: "spring", stiffness: 400, damping: 12 }}
+              >
+                <Icon size={22} />
+              </motion.div>
 
+              <h2 className="font-display text-xl text-ink">{item.title}</h2>
 
-              <h2 className="
-              font-display
-              text-xl
-              text-ink
-              ">
-                {item.title}
-              </h2>
-
-
-              <p className="
-              text-sm
-              text-ink-muted
-              mt-2
-              ">
+              <p className="text-sm text-ink-muted mt-2">
                 {item.description}
               </p>
 
+              <div
+                className="
+                  flex
+                  items-center
+                  gap-2
+                  mt-5
+                  text-sm
+                  text-emerald-700
+                  font-medium
+                "
+              >
+                {isCreateAction ? "Create" : "Explore"}
 
-              <div className="
-              flex items-center gap-2
-              mt-5
-              text-sm
-              text-emerald-700
-              font-medium
-              ">
-
-                Explore
-                <ArrowRight size={15}/>
-
+                <motion.span
+                  className="inline-flex"
+                  animate={{ x: 0 }}
+                  whileHover={reduceMotion ? undefined : { x: 4 }}
+                  initial={false}
+                >
+                  <ArrowRight
+                    size={15}
+                    className="transition-transform duration-200 group-hover:translate-x-1"
+                  />
+                </motion.span>
               </div>
-
-
             </Link>
-
           </motion.div>
-        )
-
+        );
       })}
-
-
     </section>
   );
 }

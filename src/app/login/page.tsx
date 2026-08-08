@@ -6,41 +6,73 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { InputField } from "@/components/ui/InputField";
-import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  ArrowRight,
+} from "lucide-react";
 import Link from "next/link";
 
-import { AuthShell } from "@/components/auth/AuthShell";
+import { login } from "@/app/actions/auth";
 import { AuthBrandPanel } from "@/components/auth/AuthBrandPanel";
+import { AuthShell } from "@/components/auth/AuthShell";
 import { AuthFormHeader } from "@/components/auth/AuthFormHeader";
 import { GoogleMark } from "@/components/auth/GoogleMark";
 
 export default function LoginPage() {
   const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(true);
   const [touched, setTouched] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [loginError, setLoginError] = useState<string | undefined>();
 
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const emailError = touched && email.length > 0 && !emailValid ? "Enter a valid email address" : undefined;
-  const passwordError = touched && password.length > 0 && password.length < 8 ? "Use at least 8 characters" : undefined;
 
-  function handleSubmit(e: FormEvent) {
+  const emailError =
+    touched && email.length > 0 && !emailValid
+      ? "Enter a valid email address"
+      : undefined;
+
+  const passwordError =
+    touched && password.length > 0 && password.length < 8
+      ? "Use at least 8 characters"
+      : undefined;
+
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+
     setTouched(true);
-    if (!emailValid || password.length < 8) return;
+    setLoginError(undefined);
+
+    if (!emailValid || password.length < 8) {
+      return;
+    }
+
     setSubmitting(true);
-    setTimeout(() => {
+
+    const result = await login(email, password);
+
+    if (!result.success) {
+      setLoginError(result.error);
       setSubmitting(false);
-      router.push("/dashboard");
-    }, 800);
+      return;
+    }
+
+    router.push("/dashboard");
+    router.refresh();
   }
-  //False data, im testing login flow
-  return (
+
+return (
   <AuthShell
-    brand={<AuthBrandPanel mode="login" />}
+    brand={
+      <AuthBrandPanel />
+    }
   >
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -76,7 +108,11 @@ export default function LoginPage() {
 
       <div className="flex items-center gap-3 mb-6">
         <div className="hairline flex-1" />
-        <span className="text-[12px] text-ink-faint font-mono">or</span>
+
+        <span className="text-[12px] text-ink-faint font-mono">
+          or
+        </span>
+
         <div className="hairline flex-1" />
       </div>
 
@@ -125,6 +161,12 @@ export default function LoginPage() {
             </button>
           }
         />
+
+        {loginError && (
+          <p className="text-sm text-red-600 -mt-1">
+            {loginError}
+          </p>
+        )}
 
         <div className="flex items-center justify-between -mt-1">
           <label className="inline-flex items-center gap-2 text-[13.5px] text-ink-muted cursor-pointer">

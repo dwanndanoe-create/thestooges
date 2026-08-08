@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { User, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { signup } from "@/app/actions/auth";
 
 import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/ui/Magnetic";
@@ -49,32 +50,30 @@ touched && password.length > 0 && password.length < 8
 
 
 
-function handleSubmit(e:FormEvent){
+async function handleSubmit(e: FormEvent) {
+  e.preventDefault();
 
-e.preventDefault();
+  setTouched(true);
 
-setTouched(true);
+  if (
+    name.trim().length < 2 ||
+    !emailValid ||
+    password.length < 8
+  ) {
+    return;
+  }
 
+  setSubmitting(true);
 
-if(
-name.length < 2 ||
-!emailValid ||
-password.length < 8
-) return;
+  const result = await signup(name, email, password);
 
+  if (!result.success) {
+    setSubmitting(false);
+    alert(result.error);
+    return;
+  }
 
-setSubmitting(true);
-
-
-setTimeout(()=>{
-
-setSubmitting(false);
-
-router.push("/dashboard");
-
-},800);
-
-
+  router.push("/dashboard");
 }
 
 
