@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS — Microjobs.sr
+   Palette: deep emerald + warm ink neutrals + muted gold accent.
+   Grounded in "one profile, many roles" — a local talent registry,
+   not a generic SaaS. Signature element: the hero role-stack.
+   ============================================================ */
+
+:root {
+  /* --- Color: surfaces --- */
+  --color-bg: #f6f5f1;
+  --color-bg-raised: #ffffff;
+  --color-bg-sunken: #edece5;
+
+  /* --- Color: ink (never pure black) --- */
+  --color-ink: #131d19;
+  --color-ink-muted: #576059;
+  --color-ink-faint: #8b9189;
+
+  /* --- Color: brand --- */
+  --color-emerald-900: #0a3c2c;
+  --color-emerald-700: #0f6d4e;
+  --color-emerald-500: #16875f;
+  --color-emerald-300: #6fb69a;
+  --color-emerald-100: #dcece4;
+
+  --color-teal-700: #0e6a68;
+  --color-teal-500: #14877a;
+
+  /* --- Color: warm accent, used sparingly (status/highlights) --- */
+  --color-gold-600: #a9791f;
+  --color-gold-100: #f3e9d2;
+
+  /* --- Color: river blue + sun gold — local light & water, used as rare highlights --- */
+  --color-river-700: #1c5f73;
+  --color-river-500: #2b8aa3;
+  --color-river-100: #e1eff2;
+  --color-sun-500: #e2a13d;
+
+  /* --- Color: borders / lines --- */
+  --color-line: #dedcd2;
+  --color-line-strong: #c7c4b6;
+
+  /* --- Dark mode surfaces (swapped via .dark on html) --- */
+  --color-bg-dark: #0d1512;
+  --color-bg-raised-dark: #131f1a;
+  --color-bg-sunken-dark: #0a100d;
+  --color-ink-dark: #eef1ec;
+  --color-ink-muted-dark: #a7b0a8;
+  --color-line-dark: #223028;
+
+  /* --- Radius --- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+
+  /* --- Shadow (restrained, layered, not glow) --- */
+  --shadow-sm: 0 1px 2px rgba(19, 29, 25, 0.06);
+  --shadow-md: 0 4px 16px -4px rgba(19, 29, 25, 0.12), 0 1px 2px rgba(19, 29, 25, 0.06);
+  --shadow-lg: 0 16px 40px -12px rgba(19, 29, 25, 0.22), 0 2px 8px rgba(19, 29, 25, 0.08);
+
+  /* --- Spacing rhythm (8px system) --- */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+  --space-7: 96px;
+  --space-8: 128px;
+
+  /* --- Fonts --- */
+  --font-display: var(--font-space-grotesk), "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html.dark {
+  --color-bg: var(--color-bg-dark);
+  --color-bg-raised: var(--color-bg-raised-dark);
+  --color-bg-sunken: var(--color-bg-sunken-dark);
+  --color-ink: var(--color-ink-dark);
+  --color-ink-muted: var(--color-ink-muted-dark);
+  --color-line: var(--color-line-dark);
+  --color-line-strong: #2c3d33;
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-bg-raised: var(--color-bg-raised);
+  --color-bg-sunken: var(--color-bg-sunken);
+  --color-ink: var(--color-ink);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-ink-faint: var(--color-ink-faint);
+  --color-emerald-900: var(--color-emerald-900);
+  --color-emerald-700: var(--color-emerald-700);
+  --color-emerald-500: var(--color-emerald-500);
+  --color-emerald-300: var(--color-emerald-300);
+  --color-emerald-100: var(--color-emerald-100);
+  --color-teal-700: var(--color-teal-700);
+  --color-teal-500: var(--color-teal-500);
+  --color-gold-600: var(--color-gold-600);
+  --color-gold-100: var(--color-gold-100);
+  --color-river-700: var(--color-river-700);
+  --color-river-500: var(--color-river-500);
+  --color-river-100: var(--color-river-100);
+  --color-sun-500: var(--color-sun-500);
+  --color-line: var(--color-line);
+  --color-line-strong: var(--color-line-strong);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Visible, deliberate focus ring — never suppressed */
+:focus-visible {
+  outline: 2px solid var(--color-emerald-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.container-page {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+@media (min-width: 768px) {
+  .container-page {
+    padding-inline: 40px;
+  }
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.hairline {
+  height: 1px;
+  background: var(--color-line);
+}
+
+/* Subtle dot-grid texture — reads as light through leaves, not decoration for its own sake */
+.bg-dot-grid {
+  background-image: radial-gradient(var(--color-line-strong) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Marquee track: two identical children placed side by side, animated as one unit in JS */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 2.5rem;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
