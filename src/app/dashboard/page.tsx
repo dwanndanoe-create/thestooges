@@ -347,10 +347,6 @@ const greeting = getGreeting(user.name);
           </div>
         </section>
 
-        {/* Activity */}
-
-        <ActivityPanel />
-
       </div>
     </main>
   );
