@@ -68,7 +68,7 @@ export async function signup(
 }
 
 type LoginResult =
-  | { success: true }
+  | { success: true; isAdmin: boolean }
   | { success: false; error: string };
 
 export async function login(
@@ -120,6 +120,7 @@ export async function login(
 
   return {
     success: true,
+    isAdmin: user.isAdmin,
   };
 }
 

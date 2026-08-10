@@ -1,6 +1,7 @@
 import { requireAdmin } from "@/lib/admin";
 import { prisma } from "@/lib/prisma";
 import { toggleJobStatus } from "@/app/actions/adminJobs";
+import { AdminNav } from "@/components/admin/AdminNav";
 
 export default async function AdminJobsPage() {
   await requireAdmin();
@@ -27,7 +28,7 @@ export default async function AdminJobsPage() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-7xl px-6 py-10">
-
+        <AdminNav />
         <h1 className="font-display text-3xl text-ink">
           Jobs
         </h1>

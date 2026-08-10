@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/admin";
 import { prisma } from "@/lib/prisma";
+import { AdminNav } from "@/components/admin/AdminNav";
 
 export default async function AdminApplicationsPage() {
   await requireAdmin();
@@ -31,7 +32,7 @@ export default async function AdminApplicationsPage() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-7xl px-6 py-10">
-
+        <AdminNav />
         <h1 className="font-display text-3xl text-ink">
           Applications
         </h1>
