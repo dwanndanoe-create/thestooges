@@ -13,11 +13,23 @@ import {
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { logout } from "@/app/actions/auth";
 
+type ProjectInvitation = {
+  id: string;
+  project: {
+    id: string;
+    title: string;
+    type: "COLLABORATION" | "MENTORSHIP";
+    creator: {
+      name: string;
+    };
+  };
+};
+
 type DashboardTopActionsProps = {
   name: string;
   email: string;
+  projectInvitations: ProjectInvitation[];
 };
-
 /** Small inline toucan — peeks in playfully when the account panel opens. */
 function Toucan({ reduceMotion }: { reduceMotion: boolean }) {
   return (
@@ -72,6 +84,7 @@ function Toucan({ reduceMotion }: { reduceMotion: boolean }) {
 export function DashboardTopActions({
   name,
   email,
+  projectInvitations,
 }: DashboardTopActionsProps) {
   const [open, setOpen] = useState<
     "messages" | "notifications" | "account" | null
@@ -115,28 +128,76 @@ export function DashboardTopActions({
     : { duration: 0.16, ease: "easeOut" as const };
 
   return (
-    <div ref={containerRef} className="relative flex items-center gap-2">
-      {/* Messages */}
-      <button
-        type="button"
-        onClick={() => setOpen(open === "messages" ? null : "messages")}
-        aria-label="Messages"
+  <div ref={containerRef} className="relative flex items-center gap-3">
+
+    {/* Messages */}
+    <button
+      type="button"
+      onClick={() =>
+        setOpen(open === "messages" ? null : "messages")
+      }
+      aria-label="Messages"
+      className="
+        relative
+        h-11
+        w-11
+        rounded-xl
+        border
+        border-line
+        bg-white
+        hover:border-emerald-600
+        transition
+        grid
+        place-items-center
+      "
+    >
+      <MessageCircle size={19} className="text-emerald-700" />
+
+      <span
         className="
-          relative
-          h-11
-          w-11
-          rounded-xl
-          border
-          border-line
-          bg-white
-          hover:border-emerald-600
-          transition
+          absolute
+          -top-1
+          -right-1
+          h-5
+          min-w-5
+          px-1
+          rounded-full
+          bg-emerald-700
+          text-white
+          text-[10px]
           grid
           place-items-center
         "
       >
-        <MessageCircle size={19} className="text-emerald-700" />
+        0
+      </span>
+    </button>
 
+
+    {/* Notifications */}
+    <button
+      type="button"
+      onClick={() =>
+        setOpen(open === "notifications" ? null : "notifications")
+      }
+      aria-label="Notifications"
+      className="
+        relative
+        h-11
+        w-11
+        rounded-xl
+        border
+        border-line
+        bg-white
+        hover:border-emerald-600
+        transition
+        grid
+        place-items-center
+      "
+    >
+      <Bell size={19} className="text-emerald-700" />
+
+      {projectInvitations.length > 0 && (
         <span
           className="
             absolute
@@ -153,273 +214,390 @@ export function DashboardTopActions({
             place-items-center
           "
         >
-          0
+          {projectInvitations.length}
         </span>
-      </button>
+      )}
+    </button>
 
-      {/* Notifications */}
-      <button
-        type="button"
-        onClick={() =>
-          setOpen(open === "notifications" ? null : "notifications")
-        }
-        aria-label="Notifications"
+
+    {/* Account */}
+    <button
+      type="button"
+      onClick={() =>
+        setOpen(open === "account" ? null : "account")
+      }
+      aria-label="Account menu"
+      className="
+        h-11
+        min-w-11
+        px-2
+        rounded-xl
+        border
+        border-line
+        bg-white
+        hover:border-emerald-600
+        transition
+        flex
+        items-center
+        justify-center
+        gap-2
+      "
+    >
+      <span
         className="
-          h-11
-          w-11
-          rounded-xl
-          border
-          border-line
-          bg-white
-          hover:border-emerald-600
-          transition
+          h-8
+          w-8
+          rounded-lg
+          bg-emerald-100
+          text-emerald-800
+          text-xs
+          font-semibold
           grid
           place-items-center
         "
       >
-        <Bell size={19} className="text-emerald-700" />
-      </button>
+        {initials}
+      </span>
+    </button>
 
-      {/* Account */}
-      <button
-        type="button"
-        onClick={() => setOpen(open === "account" ? null : "account")}
-        aria-label="Account menu"
-        className="
-          h-11
-          min-w-11
-          px-2
-          rounded-xl
-          border
-          border-line
-          bg-white
-          hover:border-emerald-600
-          transition
-          flex
-          items-center
-          justify-center
-          gap-2
-        "
-      >
-        <span className="h-8 w-8 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-semibold grid place-items-center">
-          {initials}
-        </span>
-      </button>
 
-      {/* Dropdown */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            key={open}
-            initial={
-              reduceMotion
-                ? { opacity: 0 }
-                : { opacity: 0, y: -6, scale: 0.98 }
-            }
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={
-              reduceMotion
-                ? { opacity: 0 }
-                : { opacity: 0, y: -6, scale: 0.98 }
-            }
-            transition={panelTransition}
-            style={{ transformOrigin: "top right" }}
-            className="
-              absolute
-              right-0
-              top-14
-              w-80
-              rounded-2xl
-              border
-              border-line
-              bg-white
-              shadow-lg
-              p-2
-              z-50
-              overflow-hidden
-            "
-          >
-            {/* Messages */}
-            {open === "messages" && (
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-display text-lg text-ink">
-                    Messages
-                  </h3>
+    {/* Dropdown */}
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key={open}
+          initial={
+            reduceMotion
+              ? { opacity: 0 }
+              : { opacity: 0, y: -6, scale: 0.98 }
+          }
+          animate={{
+            opacity: 1,
+            y: 0,
+            scale: 1,
+          }}
+          exit={
+            reduceMotion
+              ? { opacity: 0 }
+              : { opacity: 0, y: -6, scale: 0.98 }
+          }
+          transition={panelTransition}
+          style={{ transformOrigin: "top right" }}
+          className="
+            absolute
+            right-0
+            top-14
+            w-80
+            rounded-2xl
+            border
+            border-line
+            bg-white
+            shadow-lg
+            p-2
+            z-50
+            overflow-hidden
+          "
+        >
 
-                  <button
-                    type="button"
-                    onClick={() => setOpen(null)}
-                    className="
-                      text-ink-faint
-                      hover:text-ink
-                      transition
-                    "
-                    aria-label="Close messages"
-                  >
-                    <X size={16} />
-                  </button>
+          {/* ========================= */}
+          {/* Messages */}
+          {/* ========================= */}
+
+          {open === "messages" && (
+            <div className="p-4">
+
+              <div className="flex items-center justify-between">
+                <h3 className="font-display text-lg text-ink">
+                  Messages
+                </h3>
+
+                <button
+                  type="button"
+                  onClick={() => setOpen(null)}
+                  className="
+                    text-ink-faint
+                    hover:text-ink
+                    transition
+                  "
+                  aria-label="Close messages"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <div className="mt-4 rounded-xl bg-bg-sunken p-4">
+                <div className="flex items-center gap-3">
+
+                  <MessageCircle
+                    size={18}
+                    className="text-emerald-700"
+                  />
+
+                  <div>
+                    <p className="text-sm font-medium text-ink">
+                      No messages yet
+                    </p>
+
+                    <p className="text-xs text-ink-muted mt-0.5">
+                      Your conversations will appear here.
+                    </p>
+                  </div>
+
                 </div>
+              </div>
+
+              <Link
+                href="/messages"
+                onClick={() => setOpen(null)}
+                className="
+                  mt-4
+                  flex
+                  items-center
+                  justify-center
+                  h-10
+                  w-full
+                  rounded-xl
+                  bg-emerald-800
+                  text-sm
+                  font-medium
+                  text-white
+                  hover:bg-emerald-900
+                  transition
+                "
+              >
+                View all messages
+              </Link>
+
+            </div>
+          )}
+
+
+          {/* ========================= */}
+          {/* Notifications */}
+          {/* ========================= */}
+
+          {open === "notifications" && (
+            <div className="p-4">
+
+              <div className="flex items-center justify-between">
+
+                <h3 className="font-display text-lg text-ink">
+                  Notifications
+                </h3>
+
+                <button
+                  type="button"
+                  onClick={() => setOpen(null)}
+                  className="
+                    text-ink-faint
+                    hover:text-ink
+                    transition
+                  "
+                  aria-label="Close notifications"
+                >
+                  <X size={16} />
+                </button>
+
+              </div>
+
+
+              {projectInvitations.length === 0 ? (
 
                 <div className="mt-4 rounded-xl bg-bg-sunken p-4">
                   <div className="flex items-center gap-3">
-                    <MessageCircle
+
+                    <Bell
                       size={18}
                       className="text-emerald-700"
                     />
 
                     <div>
                       <p className="text-sm font-medium text-ink">
-                        No messages yet
+                        No notifications yet
                       </p>
 
                       <p className="text-xs text-ink-muted mt-0.5">
-                        Your conversations will appear here.
+                        Project invitations and other updates will appear here.
                       </p>
                     </div>
+
                   </div>
                 </div>
 
+              ) : (
+
+                <div className="mt-4 space-y-3">
+
+                  {projectInvitations.map((invitation) => (
+
+                    <Link
+                      key={invitation.id}
+                      href={`/projects/${invitation.project.id}`}
+                      onClick={() => setOpen(null)}
+                      className="
+                        block
+                        rounded-xl
+                        border
+                        border-emerald-100
+                        bg-emerald-50
+                        p-4
+                        hover:bg-emerald-100
+                        transition
+                      "
+                    >
+
+                      <p className="text-sm font-medium text-ink">
+                        Project invitation
+                      </p>
+
+                      <p className="mt-1 text-sm text-ink-muted">
+                        {invitation.project.creator.name} invited you
+                        to join{" "}
+                        <span className="font-medium text-ink">
+                          {invitation.project.title}
+                        </span>.
+                      </p>
+
+                      <p className="mt-2 text-xs text-emerald-700">
+                        View project →
+                      </p>
+
+                    </Link>
+
+                  ))}
+
+                </div>
+
+              )}
+
+            </div>
+          )}
+
+
+          {/* ========================= */}
+          {/* Account */}
+          {/* ========================= */}
+
+          {open === "account" && (
+            <>
+
+              <div className="px-3 py-3 border-b border-line">
+
+                <div className="flex items-center gap-3">
+
+                  <div
+                    className="
+                      h-10
+                      w-10
+                      rounded-xl
+                      bg-emerald-100
+                      text-emerald-800
+                      font-semibold
+                      text-sm
+                      grid
+                      place-items-center
+                    "
+                  >
+                    {initials}
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+
+                    <p className="text-sm font-medium text-ink truncate">
+                      {name}
+                    </p>
+
+                    <p className="text-xs text-ink-faint truncate">
+                      {email}
+                    </p>
+
+                  </div>
+
+                  <Toucan reduceMotion={!!reduceMotion} />
+
+                </div>
+
+              </div>
+
+
+              <div className="py-1">
+
                 <Link
-                  href="/messages"
+                  href="/profile"
                   onClick={() => setOpen(null)}
                   className="
-                    mt-4
                     flex
                     items-center
-                    justify-center
-                    h-10
-                    w-full
+                    gap-3
                     rounded-xl
-                    bg-emerald-800
+                    px-3
+                    py-2.5
                     text-sm
-                    font-medium
-                    text-white
-                    hover:bg-emerald-900
+                    text-ink
+                    hover:bg-bg-sunken
                     transition
                   "
                 >
-                  View all messages
+                  <User size={17} />
+                  View profile
                 </Link>
+
+
+                <Link
+                  href="/profile/edit"
+                  onClick={() => setOpen(null)}
+                  className="
+                    flex
+                    items-center
+                    gap-3
+                    rounded-xl
+                    px-3
+                    py-2.5
+                    text-sm
+                    text-ink
+                    hover:bg-bg-sunken
+                    transition
+                  "
+                >
+                  <Settings size={17} />
+                  Edit profile
+                </Link>
+
               </div>
-            )}
 
-            {/* Notifications */}
-            {open === "notifications" && (
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-display text-lg text-ink">
-                    Notifications
-                  </h3>
 
-                  <button
-                    type="button"
-                    onClick={() => setOpen(null)}
-                    className="text-ink-faint hover:text-ink transition"
-                    aria-label="Close notifications"
-                  >
-                    <X size={16} />
-                  </button>
-                </div>
+              <div className="border-t border-line pt-1">
 
-                <p className="text-sm text-ink-muted mt-3">
-                  No notifications yet.
-                </p>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="
+                    w-full
+                    flex
+                    items-center
+                    gap-3
+                    rounded-xl
+                    px-3
+                    py-2.5
+                    text-sm
+                    text-red-600
+                    hover:bg-red-50
+                    transition
+                  "
+                >
+                  <LogOut size={17} />
+                  Log out
+                </button>
+
               </div>
-            )}
 
-            {/* Account */}
-            {open === "account" && (
-              <>
-                <div className="px-3 py-3 border-b border-line">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-emerald-100 text-emerald-800 font-semibold text-sm grid place-items-center">
-                      {initials}
-                    </div>
+            </>
+          )}
 
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium text-ink truncate">
-                        {name}
-                      </p>
-
-                      <p className="text-xs text-ink-faint truncate">
-                        {email}
-                      </p>
-                    </div>
-
-                    <Toucan reduceMotion={!!reduceMotion} />
-                  </div>
-                </div>
-
-                <div className="py-1">
-                  <Link
-                    href="/profile"
-                    onClick={() => setOpen(null)}
-                    className="
-                      flex
-                      items-center
-                      gap-3
-                      rounded-xl
-                      px-3
-                      py-2.5
-                      text-sm
-                      text-ink
-                      hover:bg-bg-sunken
-                      transition
-                    "
-                  >
-                    <User size={17} />
-                    View profile
-                  </Link>
-
-                  <Link
-                    href="/profile/edit"
-                    onClick={() => setOpen(null)}
-                    className="
-                      flex
-                      items-center
-                      gap-3
-                      rounded-xl
-                      px-3
-                      py-2.5
-                      text-sm
-                      text-ink
-                      hover:bg-bg-sunken
-                      transition
-                    "
-                  >
-                    <Settings size={17} />
-                    Edit profile
-                  </Link>
-                </div>
-
-                <div className="border-t border-line pt-1">
-                  <button
-                    type="button"
-                    onClick={handleLogout}
-                    className="
-                      w-full
-                      flex
-                      items-center
-                      gap-3
-                      rounded-xl
-                      px-3
-                      py-2.5
-                      text-sm
-                      text-red-600
-                      hover:bg-red-50
-                      transition
-                    "
-                  >
-                    <LogOut size={17} />
-                    Log out
-                  </button>
-                </div>
-              </>
-            )}
-          </motion.div>
-        )}
+        </motion.div>
+      )}
       </AnimatePresence>
+
     </div>
   );
 }

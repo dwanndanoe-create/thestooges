@@ -1,151 +1,110 @@
-"use client";
-
+import Link from "next/link";
 import { MapPin } from "lucide-react";
 
 interface Job {
   id: string;
-  title:string;
-  description:string;
-  company:string;
-  location:string | null;
-  skills:string[];
-  budget:number | string;
-
+  title: string;
+  description: string;
+  company: string;
+  location: string | null;
+  skills: string[];
+  budget: number | string;
 }
 
 interface JobCardProps {
   job: Job;
 }
 
-export function JobCard({job}:JobCardProps){
+export function JobCard({ job }: JobCardProps) {
+  const {
+    id,
+    title,
+    description,
+    company,
+    location,
+    skills,
+    budget,
+  } = job;
 
-const {
-  title,
-  company,
-  location,
-  skills,
-  budget
-} = job;
+  return (
+    <article
+      className="
+        rounded-2xl
+        border
+        border-line
+        bg-white
+        p-6
+        shadow-sm
+        transition
+        hover:-translate-y-0.5
+        hover:shadow-md
+      "
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h3 className="font-display text-xl text-ink">
+            {title}
+          </h3>
 
+          <p className="mt-1 text-sm text-ink-muted">
+            {company}
+          </p>
+        </div>
+      </div>
 
-return (
+      <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-ink-muted">
+        {description}
+      </p>
 
-<div
-className="
-bg-bg-raised
-border border-line
-rounded-2xl
-p-6
-hover:shadow-md
-transition
-"
->
+      <div className="mt-4 flex flex-wrap gap-4 text-xs text-ink-muted">
+        {location && (
+          <span className="inline-flex items-center gap-1.5">
+            <MapPin size={14} />
+            {location}
+          </span>
+        )}
 
+        <span className="font-medium text-ink">
+          {Number(budget).toLocaleString()} SRD
+        </span>
+      </div>
 
-<h3
-className="
-font-display
-text-lg
-text-ink
-"
->
-{title}
-</h3>
+      {skills.length > 0 && (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {skills.map((skill) => (
+            <span
+              key={skill}
+              className="
+                rounded-full
+                bg-emerald-100
+                px-3
+                py-1
+                text-xs
+                text-emerald-800
+              "
+            >
+              {skill}
+            </span>
+          ))}
+        </div>
+      )}
 
-
-
-<p
-className="
-text-sm
-text-ink-muted
-mt-1
-"
->
-{company}
-</p>
-
-
-
-<div
-className="
-flex items-center gap-2
-text-xs
-text-ink-muted
-mt-4
-"
->
-
-<MapPin size={13}/>
-
-{location}
-
-</div>
-
-
-
-<div
-className="
-flex flex-wrap gap-2
-mt-4
-"
->
-
-{
-skills.map(skill=>(
-
-<span
-key={skill}
-className="
-px-3
-py-1
-rounded-full
-bg-emerald-100
-text-emerald-800
-text-xs
-"
->
-
-{skill}
-
-</span>
-
-))
-}
-
-</div>
-
-<div
-className="
-mt-5
-flex justify-between items-center
-"
->
-
-<span
-className="
-font-medium
-text-ink
-"
->
-{budget.toLocaleString()} SRD
-</span>
-
-
-<button
-className="
-text-sm
-text-emerald-700
-font-medium
-"
->
-Apply →
-</button>
-
-</div>
-
-</div>
-
-);
-
-
+      <div className="mt-5 border-t border-line pt-4">
+        <Link
+          href={`/jobs/${id}`}
+          className="
+            inline-flex
+            items-center
+            text-sm
+            font-medium
+            text-emerald-700
+            transition
+            hover:text-emerald-900
+          "
+        >
+          View details →
+        </Link>
+      </div>
+    </article>
+  );
 }

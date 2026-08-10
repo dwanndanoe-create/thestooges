@@ -93,3 +93,93 @@ export async function createJob(
 
   redirect("/jobs");
 }
+
+type ApplyToJobResult =
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      error: string;
+    };
+
+export async function applyToJob(
+  jobId: string
+): Promise<ApplyToJobResult> {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return {
+      success: false,
+      error: "You must be logged in to apply for a job.",
+    };
+  }
+
+  const job = await prisma.job.findUnique({
+    where: {
+      id: jobId,
+    },
+    select: {
+      id: true,
+      creatorId: true,
+      status: true,
+    },
+  });
+
+  if (!job) {
+    return {
+      success: false,
+      error: "This job no longer exists.",
+    };
+  }
+
+  if (job.creatorId === user.id) {
+    return {
+      success: false,
+      error: "You cannot apply to your own job.",
+    };
+  }
+
+  if (job.status !== "OPEN") {
+    return {
+      success: false,
+      error: "This job is no longer accepting applications.",
+    };
+  }
+
+  const existingApplication = await prisma.jobApplication.findUnique({
+    where: {
+      jobId_userId: {
+        jobId,
+        userId: user.id,
+      },
+    },
+  });
+
+  if (existingApplication) {
+    return {
+      success: false,
+      error: "You have already applied to this job.",
+    };
+  }
+
+  try {
+    await prisma.jobApplication.create({
+      data: {
+        jobId,
+        userId: user.id,
+      },
+    });
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    console.error("Failed to apply to job:", error);
+
+    return {
+      success: false,
+      error: "Something went wrong while applying to this job.",
+    };
+  }
+}

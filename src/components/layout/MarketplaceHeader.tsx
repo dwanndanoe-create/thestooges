@@ -125,7 +125,7 @@ export function MarketplaceHeader({
             delay: reduceMotion ? 0 : 0.08,
             ease: "easeOut",
           }}
-          className="mt-12"
+          className="mt-2"
         >
           <div className="flex items-end justify-between gap-6 flex-wrap">
             <div>
@@ -145,7 +145,7 @@ export function MarketplaceHeader({
               <p
                 className="
                   text-ink-muted
-                  mt-3
+                  mt-2
                   max-w-2xl
                   leading-relaxed
                 "

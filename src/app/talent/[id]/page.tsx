@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { prisma } from "@/lib/prisma";
 import { MessageButton } from "@/components/messages/MessageButton";
+import { CreateProjectButton } from "@/components/projects/CreateProjectButton";
 
 interface TalentProfilePageProps {
   params: Promise<{
@@ -42,33 +43,23 @@ export default async function TalentProfilePage({
     .toUpperCase();
 
   return (
-    <main className="min-h-screen bg-bg">
-      <div className="mx-auto max-w-5xl px-5 py-6 sm:px-6 lg:px-8">
+    <main>
+      <div className="max-w-6xl mx-auto">
         {/* Top navigation */}
-        <div className="flex items-center justify-between">
+        <div className="mt-10">
           <Link
             href="/talent"
             className="
-              group
               inline-flex
               items-center
               gap-2
               text-sm
-              font-medium
               text-ink-muted
               hover:text-emerald-700
               transition
             "
           >
-            <ArrowLeft
-              size={16}
-              className="
-                transition-transform
-                duration-200
-                group-hover:-translate-x-0.5
-              "
-            />
-
+            <ArrowLeft size={15} />
             Back to talent
           </Link>
         </div>
@@ -89,99 +80,119 @@ export default async function TalentProfilePage({
           <div className="h-2 bg-emerald-700" />
 
           <div className="p-6 sm:p-8">
-            <div className="flex flex-col sm:flex-row sm:items-start gap-5">
-              {/* Avatar */}
+            <div className="flex flex-col gap-6">
+              {/* Identity */}
+              <div className="flex flex-col sm:flex-row sm:items-start gap-5">
+                {/* Avatar */}
+                <div
+                  className="
+                    flex
+                    h-20
+                    w-20
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-2xl
+                    bg-emerald-50
+                    text-emerald-800
+                    font-display
+                    text-2xl
+                    font-semibold
+                    border
+                    border-emerald-100
+                  "
+                >
+                  {initials}
+                </div>
+
+                {/* Name + location */}
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h1
+                      className="
+                        font-display
+                        text-3xl
+                        sm:text-4xl
+                        tracking-[-0.025em]
+                        text-ink
+                      "
+                    >
+                      {talent.name}
+                    </h1>
+
+                    <span
+                      className="
+                        inline-flex
+                        items-center
+                        gap-1.5
+                        rounded-full
+                        bg-emerald-50
+                        px-2.5
+                        py-1
+                        text-xs
+                        font-medium
+                        text-emerald-800
+                      "
+                    >
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                      Active
+                    </span>
+                  </div>
+
+                  {talent.location && (
+                    <div
+                      className="
+                        flex
+                        items-center
+                        gap-1.5
+                        mt-2
+                        text-sm
+                        text-ink-muted
+                      "
+                    >
+                      <MapPin size={14} />
+                      {talent.location}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Actions */}
               <div
                 className="
                   flex
-                  h-20
-                  w-20
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-2xl
-                  bg-emerald-50
-                  text-emerald-800
-                  font-display
-                  text-2xl
-                  font-semibold
-                  border
-                  border-emerald-100
+                  flex-col
+                  sm:flex-row
+                  gap-3
+                  border-t
+                  border-line
+                  pt-6
                 "
               >
-                {initials}
+                <MessageButton
+                  userId={talent.id}
+                  userName={talent.name}
+                />
+
+                <CreateProjectButton
+                  userId={talent.id}
+                  userName={talent.name}
+                />
               </div>
 
-              {/* Identity */}
-              <div className="flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <h1
-                    className="
-                      font-display
-                      text-3xl
-                      sm:text-4xl
-                      tracking-[-0.025em]
-                      text-ink
-                    "
-                  >
-                    {talent.name}
-                  </h1>
-
-                  <span
-                    className="
-                      inline-flex
-                      items-center
-                      gap-1.5
-                      rounded-full
-                      bg-emerald-50
-                      px-2.5
-                      py-1
-                      text-xs
-                      font-medium
-                      text-emerald-800
-                    "
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                    Active
-                  </span>
-                </div>
-
-                {talent.location && (
-                  <div
-                    className="
-                      flex
-                      items-center
-                      gap-1.5
-                      mt-2
-                      text-sm
-                      text-ink-muted
-                    "
-                  >
-                    <MapPin size={14} />
-                    {talent.location}
-                  </div>
-                )}
+              {/* Bio */}
+              <div className="max-w-2xl">
+                <p
+                  className="
+                    text-base
+                    leading-relaxed
+                    text-ink-muted
+                  "
+                >
+                  {talent.bio ||
+                    "This person hasn't added a bio yet."}
+                </p>
               </div>
-
-              {/* Contact through Microjobs */}
-              <MessageButton 
-              userId={talent.id}
-              userName={talent.name}
-              />
-            </div>
-
-            {/* Bio */}
-            <div className="mt-8 max-w-2xl">
-              <p
-                className="
-                  text-base
-                  leading-relaxed
-                  text-ink-muted
-                "
-              >
-                {talent.bio ||
-                  "This person hasn't added a bio yet."}
-              </p>
             </div>
           </div>
         </section>
@@ -257,8 +268,8 @@ export default async function TalentProfilePage({
           )}
         </section>
 
-        {/* About / collaboration */}
-        <section className="mt-10">
+        {/* Collaboration */}
+        <section className="mt-10 mb-12">
           <div
             className="
               rounded-2xl
@@ -289,7 +300,7 @@ export default async function TalentProfilePage({
                 mt-2
               "
             >
-              Start a conversation
+              Build something together
             </h2>
 
             <p
@@ -301,17 +312,12 @@ export default async function TalentProfilePage({
                 max-w-xl
               "
             >
-              Reach out to {talent.name.split(" ")[0]} if
-              you think their skills could be a good fit
-              for your next project.
+              Think {talent.name.split(" ")[0]} would be a good
+              fit for your idea? Start a project together or
+              message them first to discuss it.
             </p>
 
-            <div className="mt-5">
-              <MessageButton 
-              userId={talent.id} 
-              userName={talent.name}
-              />
-            </div>
+            
           </div>
         </section>
       </div>
