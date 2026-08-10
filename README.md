@@ -1,643 +1,347 @@
-# ✦ Microjobs.sr
-
-### a local-first micro-jobs & talent marketplace — simple, friendly, and built around people
-
-designed to make finding work, finding talent, and starting a conversation feel effortless
-
 <p align="center">
-  <img src="./public/mj-logo-full.png" width="800" alt="Microjobs.sr logo">
+  <img src="./public/mj-black-logo.png" width="420" alt="Microjobs.sr logo">
 </p>
 
----
-
-## ✦ a different kind of marketplace
-
-most job platforms feel corporate
-
-Microjobs.sr is built for something smaller
-
-something local
-
-something human
-
-> **discover someone → understand what they can do → connect → work**
-
-no complicated hiring systems
-
-no unnecessary roles
-
-just people, skills, jobs, and conversations
-
----
-
-## ✦ built for
-
-```text
-people who need something done
-people with skills to offer
-students & freelancers
-local businesses
-anyone looking for an opportunity
-```
-
-one account can do everything.
-
-```text
-post a job
-      +
-apply for a job
-      +
-offer your skills
-      +
-message people
-```
-
-no artificial separation between "employer" and "worker".
-
----
-
-## ✦ the core system
-
-```text
-                  ┌───────────────┐
-                  │    PROFILE    │
-                  │ who you are   │
-                  │ what you do   │
-                  └───────┬───────┘
-                          │
-                          ▼
-┌──────────────┐   ┌───────────────┐   ┌──────────────┐
-│    TALENT    │ → │    CONNECT    │ ← │     JOBS     │
-│ find people  │   │   messages    │   │  find work   │
-└──────────────┘   └───────┬───────┘   └──────────────┘
-                          │
-                          ▼
-                  ┌───────────────┐
-                  │     WORK      │
-                  │ applications  │
-                  │    activity   │
-                  └───────────────┘
-```
-
-everything connects
-
-**profiles → talent → messages → jobs → applications → dashboard**
-
-nothing should feel isolated.
-
----
-
-## ✦ discover talent
-
-find people by:
-
-```text
-name
-skills
-location
-```
-
-open someone's profile
-
-see what they can do
-
-start a conversation
-
-all without leaving Microjobs.
-
----
-
-## ✦ create & find jobs
-
-post a job with:
-
-```text
-title
-description
-budget
-location
-skills
-```
-
-jobs can be:
-
-```text
-OPEN
-CLOSED
-```
-
-and users can apply with an optional message.
-
-```text
-JOB
- ↓
-APPLICATION
- ↓
-PENDING
- ↓
-ACCEPTED / REJECTED
-```
-
----
-
-## ✦ messaging
-
-communication stays inside Microjobs.
-
-```text
-talent profile
-      ↓
-    message
-      ↓
-conversation
-      ↓
-    reply
-```
-
-conversations are shared between two people.
-
-```text
-A → B
-B → A
-```
-
-doesn't create two chats.
-
-it stays one conversation.
-
-users also can't:
-
-```text
-message themselves
-message inactive users
-create duplicate conversations
-```
-
----
-
-## ✦ your workspace
-
-the dashboard brings everything together.
-
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│   PROFILE    │   │   MESSAGES   │   │ NOTIFICATIONS│
-│   identity   │   │ conversations│   │    updates   │
-└──────────────┘   └──────────────┘   └──────────────┘
-
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ APPLICATIONS │   │    JOBS      │   │   ACTIVITY   │
-│    status    │   │   posted     │   │   what's new │
-└──────────────┘   └──────────────┘   └──────────────┘
-```
-
-one place to see what's happening.
-
----
-
-## ✦ local by design
-
-Microjobs.sr is built around **Suriname**.
-
-location matters
-
-skills matter
-
-people matter
-
-the goal isn't to compete with massive global marketplaces.
-
-it's to make it easier to find the person you need —
-
-**close to home.**
-
----
-
-## ✦ little details
-
-the interface is designed to feel:
-
-```text
-clean
-friendly
-lightweight
-trustworthy
-slightly playful
-```
-
-soft surfaces
-
-emerald accents
-
-quiet borders
-
-rounded cards
-
-subtle motion
-
-small interactions
-
-even the account menu has a little **toucan** personality.
-
-because software doesn't have to feel sterile.
-
----
-
-## ✦ visual language
-
-```text
-┌─────────────────────────────────────────────┐
-│                                             │
-│   soft backgrounds                          │
-│   rounded surfaces                          │
-│   emerald accents                           │
-│   minimal borders                           │
-│   subtle shadows                            │
-│   responsive layouts                        │
-│                                             │
-└─────────────────────────────────────────────┘
-```
-
-the goal:
-
-> **feel like an app, not a corporate website.**
-
----
-
-## ✦ stack
+<h1 align="center">Microjobs.sr</h1>
+
+<p align="center">
+  A local first micro jobs and talent marketplace for Suriname.
+  <br>
+  Find work. Find talent. Connect. Get things done.
+</p>
+
+<p align="center">
+  <a href="https://microjobs-sr.vercel.app/"><strong>Live Application →</strong></a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/status-active-brightgreen?style=flat-square" alt="status">
+  <img src="https://img.shields.io/badge/platform-web-blue?style=flat-square" alt="platform">
+  <img src="https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square" alt="license">
+</p>
+
+<br>
+
+## Tech Stack
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=nextjs,react,ts,tailwind,prisma,postgres,vercel" alt="tech stack icons">
+</p>
 
 <div align="center">
 
-<table>
-<tr>
-<td align="center">
-<img src="https://cdn.simpleicons.org/nextdotjs" width="42"><br>
-<b>Next.js</b>
-</td>
-<td align="center">
-<img src="https://cdn.simpleicons.org/react" width="42"><br>
-<b>React</b>
-</td>
-<td align="center">
-<img src="https://cdn.simpleicons.org/typescript" width="42"><br>
-<b>TypeScript</b>
-</td>
-<td align="center">
-<img src="https://cdn.simpleicons.org/tailwindcss" width="42"><br>
-<b>Tailwind</b>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-<img src="https://cdn.simpleicons.org/prisma" width="42"><br>
-<b>Prisma</b>
-</td>
-<td align="center">
-<img src="https://cdn.simpleicons.org/postgresql" width="42"><br>
-<b>PostgreSQL</b>
-</td>
-<td align="center">
-<img src="https://cdn.simpleicons.org/neon" width="42"><br>
-<b>Neon</b>
-</td>
-<td align="center">
-<img src="https://cdn.simpleicons.org/nodedotjs" width="42"><br>
-<b>Node.js</b>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-<img src="https://cdn.simpleicons.org/framer" width="42"><br>
-<b>Framer Motion</b>
-</td>
-<td align="center">
-<img src="https://cdn.simpleicons.org/lucide" width="42"><br>
-<b>Lucide</b>
-</td>
-<td align="center">
-<img src="https://cdn.simpleicons.org/git" width="42"><br>
-<b>Git</b>
-</td>
-<td align="center">
-<img src="https://cdn.simpleicons.org/github" width="42"><br>
-<b>GitHub</b>
-</td>
-</tr>
-</table>
+| Layer | Technology |
+|---|---|
+| Framework | [Next.js](https://nextjs.org/) (App Router) |
+| UI | [React](https://react.dev/), [Tailwind CSS](https://tailwindcss.com/), [Framer Motion](https://www.framer.com/motion/), [Lucide React](https://lucide.dev/) |
+| Language | [TypeScript](https://www.typescriptlang.org/) |
+| ORM | [Prisma](https://www.prisma.io/) |
+| Database | [PostgreSQL](https://www.postgresql.org/) via [Neon](https://neon.tech/) |
+| Auth | Custom sessions with [bcrypt](https://www.npmjs.com/package/bcrypt) |
+| Hosting | [Vercel](https://vercel.com/) |
 
 </div>
 
-small stack → fast development → focused experience
+<br>
 
----
+## What is Microjobs.sr?
 
-## ✦ architecture
+Microjobs.sr is a marketplace built around one simple idea: make it easier for people in Suriname to find opportunities, find talent, and connect with each other.
 
-```text
-Next.js
-   │
-   ├── App Router
-   ├── React
-   ├── Server Actions
-   └── Authentication
-          │
-          ▼
-       Prisma
-          │
-          ▼
-     PostgreSQL
-          │
-          ▼
-         Neon
+Instead of splitting people into rigid "employer" and "worker" roles, everyone gets one account. From there you can build a profile, showcase your skills, post jobs, apply to jobs, share projects, and message people directly, all in one place.
+
+## The Idea
+
+Most job platforms feel huge, corporate, and complicated. Microjobs.sr is intentionally smaller, more local, and more personal.
+
+**Discover → Understand → Connect → Work**
+
+## Built For
+
+- Students
+- Freelancers
+- Local businesses
+- People looking for work
+- People looking for talent
+- People who just need something done
+
+One account can participate from either side. Need something done? Post a job and find people. Have a skill? Find a job and apply.
+
+<br>
+
+## Core Features
+
+### Profiles
+Every user has a profile with a name, bio, location, skills, and projects. It's the starting point for discovering people and understanding what they can actually do.
+
+### Talent Discovery
+Browse talent, open a profile, see their skills and projects, and start a conversation. The goal is to make the person behind the skill easy to understand.
+
+### Jobs
+Create jobs with a title, description, budget, location, and required skills. Jobs move through a simple lifecycle:
+
+`Created → Open → Applications → Accepted or Rejected → Closed`
+
+### Applications
+Applications are tied directly to jobs and can include an optional message. Duplicate applications for the same job are automatically prevented.
+
+### Projects
+Users can showcase projects linked back to their profile. Skills are useful, but proof is even better.
+
+### Messaging
+Conversations happen directly inside Microjobs. Each conversation is shared between two users rather than split into two separate threads. The system prevents self messaging, duplicate conversations, and messaging inactive users.
+
+### Dashboard
+A single workspace bringing together your profile, messages, applications, jobs, projects, and recent activity.
+
+<br>
+
+## Authentication
+
+Microjobs uses custom, session based authentication.
+
+1. User signs up
+2. Password is hashed with bcrypt
+3. A secure session token is generated
+4. The token is stored in an HTTP-only cookie
+5. The user stays authenticated until the session expires or they log out
+
+Inactive accounts are prevented from logging in.
+
+<br>
+
+## Admin System
+
+Microjobs includes a protected admin area, gated by the user's `isAdmin` flag.
+
+```
+User → isAdmin: true → Admin Dashboard → Users / Jobs / Applications / Projects
 ```
 
-database access lives through Prisma.
+Admin pages are protected on the server through a `requireAdmin()` check:
 
-generated client:
+1. Is there a current user? If not, redirect to `/login`
+2. Is the user an admin? If not, redirect to `/dashboard`
+3. If both pass, render the admin dashboard
 
-```text
-src/generated/prisma
+Knowing the `/admin` URL alone is not enough to access it.
+
+### Admin Dashboard
+
+The admin dashboard gives a platform wide overview: total and active users, total and open jobs, total and pending applications, and total and active projects. Admins can manage users and jobs, and view applications and projects, with pending items highlighted for attention.
+
+<br>
+
+## Database
+
+Microjobs uses PostgreSQL through Prisma and Neon.
+
+```
+User ── Jobs ── Applications
+User ── Projects
+User ── Sessions
+User ── Conversations ── Messages
 ```
 
----
+The database also stores supporting data such as sessions, error logs, and blacklisted names.
 
-## ✦ database
+**Rules enforced at the application and database level:**
 
-```text
-                 ┌──────────┐
-                 │   USER   │
-                 └────┬─────┘
-                      │
-       ┌──────────────┼──────────────┐
-       ▼              ▼              ▼
-     JOBS        APPLICATIONS    CONVERSATIONS
-                                      │
-                                      ▼
-                                   MESSAGES
+- One application per job
+- No duplicate conversations
+- No self messaging
+- Inactive users cannot be contacted
+- Inactive accounts cannot log in
+- Admin routes require admin access
+
+<br>
+
+## Project Structure
+
 ```
-
-additional system data handles:
-
-```text
-sessions
-blacklisted names
-error logs
-```
-
-important rules are enforced at the database/application level.
-
-```text
-one application per job
-no duplicate conversations
-no self messaging
-inactive users cannot be contacted
-```
-
----
-
-## ✦ project structure
-
-```text
 src/
 ├── app/
 │   ├── actions/
+│   ├── admin/
+│   │   ├── applications/
+│   │   ├── jobs/
+│   │   ├── projects/
+│   │   ├── users/
+│   │   └── page.tsx
 │   ├── dashboard/
+│   ├── jobs/
+│   ├── listings/
 │   ├── login/
-│   ├── register/
+│   ├── messages/
 │   ├── profile/
-│   ├── talent/
-│   └── messages/
+│   ├── projects/
+│   ├── requests/
+│   ├── signup/
+│   └── talent/
 │
 ├── components/
+│   ├── admin/
 │   ├── auth/
 │   ├── dashboard/
 │   ├── layout/
 │   ├── messages/
 │   ├── talent/
-│   ├── sections/
 │   └── ui/
 │
-├── hooks/
 ├── lib/
+│   ├── auth.ts
+│   ├── admin.ts
+│   └── prisma.ts
+│
 └── generated/
     └── prisma/
 
 prisma/
 ├── schema.prisma
 └── migrations/
+
+public/
+└── assets/
 ```
 
-modular by design.
+Modular by design. Features live in their own areas while sharing the same authentication, database, and UI systems.
 
-new features should connect to the existing system rather than becoming isolated pages.
+<br>
 
----
+## Getting Started
 
-## ✦ local setup
+Clone the repository:
 
 ```bash
-git clone https://github.com/dwanndanoe-create/thestooges.git
-
-cd thestooges
-
+git clone https://github.com/Nikhcodes/microjobs.sr.git
+cd microjobs.sr
 npm install
 ```
 
-create your environment:
+Create your environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-add your database:
+Configure your Neon database in `.env`:
 
 ```env
 DATABASE_URL="your-neon-database-url"
+DIRECT_URL="your-neon-direct-database-url"
 ```
 
-generate Prisma:
+Generate the Prisma client and run migrations:
 
 ```bash
 npx prisma generate
+npx prisma migrate dev
 ```
 
-sync your development database:
-
-```bash
-npx prisma db push
-```
-
-start Microjobs:
+Start the dev server:
 
 ```bash
 npm run dev
 ```
 
-then open:
+Then open [http://localhost:3000](http://localhost:3000).
 
-```text
-http://localhost:3000
-```
-
----
-
-## ✦ database tools
-
-generate the Prisma client:
+### Database Commands
 
 ```bash
-npx prisma generate
+npx prisma generate                          # generate the client
+npx prisma migrate dev --name your-migration  # create a migration
+npx prisma migrate deploy                     # apply migrations
+npx prisma studio                             # inspect the database
 ```
 
-push schema changes:
+### Build
 
 ```bash
-npx prisma db push
+npm run build
 ```
 
-create a migration:
+The current production build compiles successfully, including all server rendered routes.
 
-```bash
-npx prisma migrate dev --name your-migration-name
+<br>
+
+## Deployment
+
+Microjobs.sr is deployed through Vercel.
+
+```
+GitHub → Vercel → Next.js → Prisma → Neon PostgreSQL
 ```
 
-inspect the database:
+**Production:** [microjobs-sr.vercel.app](https://microjobs-sr.vercel.app/)
 
-```bash
-npx prisma studio
-```
+<br>
 
----
+## Repositories
 
-## ✦ current status
+| Repository | Purpose |
+|---|---|
+| [dwanndanoe-create/thestooges](https://github.com/dwanndanoe-create/thestooges) | Original project repository |
+| [Nikhcodes/microjobs.sr](https://github.com/Nikhcodes/microjobs.sr) | Deployment and personal repository |
 
-Microjobs is actively being built.
+The codebase is kept in sync between the two where needed.
 
-the main marketplace loop is already connected:
+<br>
 
-```text
-USER
- ↓
-PROFILE
- ↓
-DISCOVER
- ↓
-CONNECT
- ↓
-MESSAGE
- ↓
-CONVERSATION
- ↓
-REPLY
-```
+## Current Status
 
-and the job loop:
+The core marketplace is fully working, covering sign up and login, profiles, talent discovery, jobs and applications, projects, messaging, dashboards, and a full admin system on top of Prisma migrations and a production PostgreSQL database on Neon.
 
-```text
-USER
- ↓
-CREATE JOB
- ↓
-DISCOVER JOB
- ↓
-APPLY
- ↓
-MANAGE APPLICATION
-```
+The project has moved past "does it work?" and into "how do we make it better?" The main systems are connected, and the focus now is on refinement: better interactions, better feedback, better mobile behavior, and less friction overall.
 
-the project is now moving from:
+### Up Next
 
-```text
-"does it work?"
-```
+- Unread message counts
+- Message read states
+- Notifications
+- Dashboard activity improvements
+- Better talent and job search with filters
+- Mobile polish
+- Error monitoring
+- Additional admin actions
 
-toward:
+Not feature bloat, just making the existing experience better.
 
-```text
-"does it feel good?"
-```
+<br>
 
----
+## Design Philosophy
 
-## ✦ next
+- People first
+- Clarity over complexity
+- Connection over bureaucracy
+- Local over corporate
+- Useful over noisy
+- Simple over bloated
 
-```text
-unread message counts
-message read states
-better conversation UI
-notifications
-dashboard activity
-talent search
-job search
-filters
-mobile polish
-admin dashboard
-error monitoring
-```
+Microjobs should make three things obvious: who can help me, what can I do, and how do I connect. If those answers are easy to find, the platform is doing its job.
 
-the focus is refinement.
+<br>
 
-not feature bloat.
+## Why Suriname?
 
----
+Because local opportunities matter. Not every job needs to become a global marketplace listing, and not every freelancer needs to compete with thousands of people around the world. Sometimes the person you need is in your city, your neighborhood, or your network, and sometimes they just need someone to give them a chance.
 
-## ✦ design principle
+Microjobs.sr is built around that idea.
 
-> people first
-> clarity over complexity
-> connection over bureaucracy
-> local over corporate
-> useful over noisy
-> simple over bloated
+## The Bigger Idea
 
-Microjobs should make three things obvious:
+A job doesn't always need a company. A worker doesn't always need a resume. A skill doesn't always need a degree. Sometimes someone just needs help, and someone else knows how to do it.
 
-```text
-who can help me?
+Microjobs.sr exists to make that connection easier.
 
-what can I do?
+Not LinkedIn. Not Upwork. Not another giant global job board. Something smaller, something local, something human.
 
-how do I connect?
-```
+<br>
 
----
-
-## ✦ the bigger idea
-
-a job doesn't always need a company.
-
-a worker doesn't always need a resume.
-
-a skill doesn't always need a degree.
-
-sometimes someone just needs help.
-
-and someone else knows how to do it.
-
-**Microjobs.sr exists to make that connection easier.**
-
----
-
-## ✦
-
-not LinkedIn.
-
-not Upwork.
-
-not another giant job board.
-
-something smaller.
-
-something local.
-
-something human.
-
-```text
-discover → understand → connect → work
-```
-
----
-
-✦ **built for Suriname, built with intention.**
+<p align="center">
+  <strong>Built for Suriname, built with intention.</strong>
+  <br><br>
+  <a href="https://microjobs-sr.vercel.app/"><strong>Visit Microjobs.sr →</strong></a>
+  <br><br>
+  <sub>Made with Next.js, Prisma, PostgreSQL, Neon, and a questionable amount of coffee.</sub>
+</p>
