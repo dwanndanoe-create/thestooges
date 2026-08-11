@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  allowedDevOrigins: ['192.168.100.34'],
+  allowedDevOrigins: ["192.168.100.34"],
 
   images: {
     formats: ["image/avif", "image/webp"],

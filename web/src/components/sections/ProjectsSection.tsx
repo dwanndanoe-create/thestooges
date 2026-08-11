@@ -5,6 +5,7 @@ import { Users2 } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "@/components/ui/Card";
 import { projectListings } from "@/data/site-data";
+import Image from "next/image";
 
 export function ProjectsSection() {
   return (

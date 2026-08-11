@@ -35,4 +35,11 @@ pnpm-debug.log*
 # IDE
 .vscode/
 .idea/
-/src/generated/prisma
+
+# web
+/web/src/generated/prisma
+/web/.env
+/web/.env.local
+/web/.env.development.local
+/web/.env.test.local
+/web/.env.production.local

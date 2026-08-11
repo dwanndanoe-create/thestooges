@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { roleCards } from "@/data/site-data";
 import { cn } from "@/lib/cn";
+import Image from "next/image";
 
 const icons = {
   briefcase: Briefcase,
