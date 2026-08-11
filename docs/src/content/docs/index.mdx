@@ -1,0 +1,118 @@
+---
+
+title: Getting Started
+description: Set up the Microjobs.sr web application locally.
+-------------------------------------------------------------
+
+# Getting Started
+
+This guide explains how to install, configure, and run Microjobs.sr locally.
+
+## Prerequisites
+
+You need:
+
+* Node.js 22 or later
+* npm
+* Git
+* A PostgreSQL database
+
+The project uses a PostgreSQL database hosted through Neon in the deployed environment.
+
+## Clone the Repository
+
+Clone the repository and enter the project directory:
+
+```bash
+git clone https://github.com/Nikhcodes/microjobs.sr.git
+cd microjobs.sr
+```
+
+The application is located inside `web/`.
+
+```bash
+cd web
+```
+
+## Install Dependencies
+
+Install the web application's dependencies:
+
+```bash
+npm install
+```
+
+## Configure Environment Variables
+
+Create the local environment file:
+
+```bash
+cp .env.example .env
+```
+
+Configure the database connection:
+
+```text
+DATABASE_URL="your-neon-database-url"
+DIRECT_URL="your-neon-direct-database-url"
+```
+
+Never commit `.env` to Git.
+
+## Generate Prisma
+
+Generate the Prisma client:
+
+```bash
+npx prisma generate
+```
+
+## Run Database Migrations
+
+For local development:
+
+```bash
+npx prisma migrate dev
+```
+
+To apply existing migrations without creating new ones:
+
+```bash
+npx prisma migrate deploy
+```
+
+## Start the Application
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+## Useful Commands
+
+| Command                     | Purpose                            |
+| --------------------------- | ---------------------------------- |
+| `npm run dev`               | Start development server           |
+| `npm run build`             | Create production build            |
+| `npm run start`             | Start production server            |
+| `npx prisma generate`       | Generate Prisma client             |
+| `npx prisma migrate dev`    | Create/apply development migration |
+| `npx prisma migrate deploy` | Apply existing migrations          |
+| `npx prisma studio`         | Open Prisma database browser       |
+
+## Verify the Build
+
+Before deployment, run:
+
+```bash
+npm run build
+```
+
+A successful build confirms that the application can be compiled for production.
